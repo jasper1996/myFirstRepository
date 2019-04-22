@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://dubbo.apache.org/schema/dubbo        
+		http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+	<!-- 1.配置提供方应用信息，用于计算依赖关系型 -->	
+	<dubbo:application name="dubbo-et1811-deatil-provider" />	
+	
+	<!-- 2.使用zookeeper注册中心暴露服务地址 -->	
+	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" />
+	<!-- <dubbo:registry address="zookeeper://127.0.0.1:2187" /> -->	
+		
+	<!-- 3.用dubbo协议在20880端口暴力服务 -->
+	<dubbo:protocol name="dubbo" port="20880"/>
+	
+	<!-- 4.声明需要暴露的服务接口 -->
+	<dubbo:service version="1.0" interface="com.etoak.service.UserService" ref="userService"><!-- 接口 -->
+		<!-- <dubbo:method name="queryUser" timeout="4000" retries=“4></dubbo:method> 方法 重试 -->
+	</dubbo:service>
+	<!-- 5.定义实现类 -->
+	<bean id="userService" class="com.etoak.service.impl.UserServiceImpl" />
+	<!--  -->
+	<!-- <dubbo:provider retries="6" timeout="6000"></dubbo:provider> 全局 -->
+	
+	
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~使用version进行版本控制~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  -->
+	<!-- <dubbo:service version="2.0" stub="true" interface="com.etoak.service.UserService" ref="userService2"/>
+
+	<bean id="userService2" class="com.etoak.service.impl.UserServiceImpl2" /> -->
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  -->
+	
+	
+	
+</beans>
+
